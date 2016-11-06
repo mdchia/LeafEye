@@ -12,5 +12,5 @@ def image_import(filename):
     scipy.ndimage.imread(filename)
 
 def image_crop(params, image):
-    startx, starty, xsize, ysize=params[0:3]
-    return image[startx:startx+xsize,starty:starty+ysize]
+    startx, starty, xsize, ysize=params
+    return image[starty:starty+ysize,startx:startx+xsize]
