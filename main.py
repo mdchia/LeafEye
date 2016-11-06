@@ -16,6 +16,7 @@ def main():
     image_filename=sys.argv[1]
     #csv_exportname=sys.argv[2]
     cropsize=(10,30,290,180) #x offset, y offset, x size, y size
+    temprange=(31.5,20.5)
 
     # load thermal image
     main_image=ndimage.imread(image_filename,flatten=False)
@@ -24,7 +25,7 @@ def main():
 
     plt.imshow(cropped_image)
     plt.show() # debug
-    
+
 
 if __name__ == "__main__":
     main()
