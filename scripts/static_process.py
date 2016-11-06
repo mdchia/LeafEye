@@ -12,7 +12,7 @@ def image_crop(params, image):
     startx, starty, xsize, ysize=params
     return image[starty:starty+ysize,startx:startx+xsize]
 
-def thermal_image_to_dataset(image, temp_range, pixel_range, id):
+def thermal_image_to_dataset(image, temp_range, pixel_range, id): #TODO
     export_data=[]
     for y in len(image):
         for x in len(image[0]):
