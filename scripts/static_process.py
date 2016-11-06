@@ -14,10 +14,14 @@ def image_crop(params, image):
 
 def thermal_image_to_dataset(image, temp_range, pixel_range, id): #TODO
     export_data=[]
-    for y in len(image):
-        for x in len(image[0]):
+    i=0
+    for y in range(len(image)):
+        for x in range(len(image[0])):
             raw=image[y][x]
-            #temp=
+            temp=pixel_to_temp(temp_range,pixel_range,raw)
+            #format: id, temp, raw, x coord, y coord
+            export_data.append([id, temp, raw, y, x])
+    return export_data
 
 def pixel_to_temp(temp_range, pixel_range, pixel):
     maxtemp=temp_range[1]
