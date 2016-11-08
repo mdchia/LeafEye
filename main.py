@@ -9,6 +9,7 @@ import sys
 import scripts.static_process as static_process
 import matplotlib.pyplot as plt
 import csv
+import scripts.config as config
 
 
 def main():
@@ -23,12 +24,14 @@ def main():
 
     cropped_image=static_process.image_crop(cropsize,main_image)
 
-    plt.imshow(cropped_image)
-    #plt.show() # debug
+    if (config.debug):
+        plt.imshow(cropped_image)
+        plt.show() # debug
 
     test_datset=static_process.thermal_image_to_dataset(cropped_image,
                                                         temp_range, pixel_range,
                                                         "1")
+
     with open(csv_exportname, mode="w", newline="") as file:
         write_obj=csv.writer(file)
         write_obj.writerows(test_datset)
