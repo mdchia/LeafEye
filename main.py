@@ -4,12 +4,20 @@
 main.py: run this file on images
 """
 
-import scipy.ndimage as ndimage
+# system/file stuff
 import sys
-import scripts.static_process as static_process
-import matplotlib.pyplot as plt
+import os
 import csv
+
+# SciPy and display stuff
+import matplotlib.pyplot as plt
+import scipy.ndimage as ndimage
+
+# Our own stuff
 import scripts.config as config
+import scripts.static_process as static_process
+import scripts.imaging as imaging
+import scripts.thermal as thermal
 
 
 def main():
@@ -27,9 +35,9 @@ def main():
     if len(sys.argv)==4:
         mask_filename=sys.argv[3]
         mask_image=ndimage.imread(mask_filename,flatten=True)
-        cropped_mask=static_process.image_crop(cropsize,mask_image)
-        cropped_mask=cropped_mask[:,:] > mask_threshold
-        if not static_process.verify_mask(main_image, mask_image):
+        cropped_mask=imaging.crop(cropsize,mask_image)
+        cropped_mask=cropped_mask[:,:] < mask_threshold
+        if not imaging.verify_mask(main_image, mask_image):
             raise Exception("Mask does not fit image")
         if config.debug:
             plt.imshow(cropped_mask)
@@ -37,13 +45,13 @@ def main():
     else:
         cropped_mask=None
 
-    cropped_image=static_process.image_crop(cropsize,main_image)
+    cropped_image=imaging.crop(cropsize,main_image)
 
     if (config.debug):
         plt.imshow(cropped_image)
         plt.show()
 
-    test_datset=static_process.thermal_image_to_dataset(cropped_image, temp_range, pixel_range, "1", cropped_mask)
+    test_datset=thermal.thermal_image_to_dataset(cropped_image, temp_range, pixel_range, "1", cropped_mask)
 
     with open(csv_exportname, mode="w", newline="") as file:
         write_obj=csv.writer(file)
