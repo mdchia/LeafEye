@@ -4,7 +4,7 @@
 static_process.py: contains basic file functions, such as renaming
 """
 
-import scripts.config
+import scripts.config as config
 import scipy
 
 

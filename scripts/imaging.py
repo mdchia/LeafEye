@@ -4,14 +4,14 @@
 imaging.py: generic SciPy image-related functions
 """
 
-import scripts.config
+import scripts.config as config
 import scipy
 
 
 def crop(params, image):
     """
     Crops an image that is a SciPy array.
-    :param params: List of (top left x, top left y, x length, y length)
+    :param params: Tuple of (top left x, top left y, x length, y length)
     :param image: Image to be cropped
     :return: Cropped image
     """

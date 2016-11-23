@@ -4,11 +4,11 @@
 thermal.py: functions relating to thermal images
 """
 
-import scripts.config
+import scripts.config as config
 import scipy
 
 
-def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None):
+def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None, start=(0,0)):
     """
     Takes a thermal image, converts it to a wide dataset
     :param image:
@@ -19,10 +19,11 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None):
     :return:
     """
     export_data=[]
-    i=0
     use_mask=True
+    checkpoint=len(image)/10
     if mask is None:
-        use_mask==False
+        use_mask=False
+    print(".", end="")
     for y in range(len(image)):
         for x in range(len(image[0])):
             if use_mask:
@@ -31,7 +32,9 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None):
             raw=image[y][x]
             temp=pixel_to_temp(temp_range,pixel_range,raw)
             # format: id, temp, raw, x coord, y coord
-            export_data.append([id, temp, raw, y, x])
+            export_data.append([id, temp, raw, x+start[0], y+start[1]])
+        if (y % checkpoint):
+            print(".", end="")
     return export_data
 
 
