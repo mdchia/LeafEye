@@ -21,7 +21,10 @@ import scripts.thermal as thermal
 
 
 def main():
+    print("Initializing ...")
     working_directory=sys.argv[1]
+    if working_directory[-1]=="/":
+        working_directory=working_directory[0:-1]
     source_csv=working_directory+"/input.csv"
     csv_exportname=working_directory+"/output.csv"
     pixel_range=(0,255)
@@ -33,10 +36,11 @@ def main():
         for frame in csv_reader:
             # say what we're doing
             print("Starting image "+str(i), end="")
+            sys.stdout.flush()
             # process each entry in csv
             # csv format: id, image name, mask name, max temp, min temp, crop details (2 points)
-            image_filename=working_directory+frame["image_name"]
-            mask_filename=working_directory+frame["mask_name"]
+            image_filename=working_directory+"/"+frame["image_name"]
+            mask_filename=working_directory+"/"+frame["mask_name"]
             temp_range=(float(frame["max_temp"]),float(frame["min_temp"]))
             cropsize=(int(frame["topleft_x"]), int(frame["topleft_y"]),
                       int(frame["bottomright_x"])-int(frame["topleft_x"]),
@@ -61,9 +65,11 @@ def main():
             print("done!")
 
     # save the dataset
+    print("Saving csv ...")
     with open(csv_exportname, mode="w", newline="") as file:
         write_obj=csv.writer(file)
         write_obj.writerows(full_data)
+    print("Completed!")
 
 if __name__ == "__main__":
     main()

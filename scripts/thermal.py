@@ -6,6 +6,8 @@ thermal.py: functions relating to thermal images
 
 import scripts.config as config
 import scipy
+import math
+import sys
 
 
 def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None, start=(0,0)):
@@ -20,7 +22,7 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None, star
     """
     export_data=[]
     use_mask=True
-    checkpoint=len(image)/10
+    checkpoint=math.floor(len(image)/10.01) # 10.01 is a hack for better consistency
     if mask is None:
         use_mask=False
     print(".", end="")
@@ -33,8 +35,9 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None, star
             temp=pixel_to_temp(temp_range,pixel_range,raw)
             # format: id, temp, raw, x coord, y coord
             export_data.append([id, temp, raw, x+start[0], y+start[1]])
-        if (y % checkpoint):
+        if y % checkpoint==0:
             print(".", end="")
+            sys.stdout.flush()
     return export_data
 
 
