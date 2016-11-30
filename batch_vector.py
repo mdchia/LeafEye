@@ -53,7 +53,7 @@ def main():
             mask_filename=working_directory+"/"+frame["mask_name"]
             rgb_filename=working_directory+"/"+frame["rgb_name"]
             temp_range=(float(frame["max_temp"]),float(frame["min_temp"]))
-            target_point=(int(frame["target_x"]), int(frame["target_y"]))
+            target_point=(int(frame["target_y"]),int(frame["target_x"]))
             id=frame["id"]
 
             # load thermal image
