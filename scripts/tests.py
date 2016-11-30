@@ -57,6 +57,18 @@ class numerical_tests(unittest.TestCase):
         result=imaging.verify_mask(test_image,test_mask)
         self.assertFalse(result)
 
+    def test_mask_params1(self):
+        test_mask=np.array([[True,False],[False,False]])
+        expected_params=(0,0,1,1)
+        actual_params=imaging.mask_crop_size(test_mask)
+        self.assertEqual(expected_params, actual_params)
+
+    def test_mask_params2(self):
+        test_mask=np.array([[False,False],[True,False]])
+        expected_params=(0,1,1,1)
+        actual_params=imaging.mask_crop_size(test_mask)
+        self.assertEqual(expected_params, actual_params)
+
 
 if __name__ == '__main__':
     unittest.main()

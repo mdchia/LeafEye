@@ -6,7 +6,6 @@ main.py: run this file on images
 
 # system/file stuff
 import sys
-import os
 import csv
 
 # SciPy and display stuff
