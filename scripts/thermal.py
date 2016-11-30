@@ -37,7 +37,7 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None,
             export_line=[id, temp, raw, x+start[0],y+start[1]]
 
             if target is not None:
-                current_pixel=np.array((y,x))
+                current_pixel=np.array((y+start[1],x+start[0]))
                 distance=np.linalg.norm(target-current_pixel)
                 distance=[distance] # to make it work with .extend()
                 export_line.extend(distance)
