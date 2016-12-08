@@ -27,7 +27,7 @@ def main():
         working_directory=sys.argv[1]
         if working_directory[-1]=="/":
             working_directory=working_directory[0:-1]
-        source_csv=working_directory+"/input.csv"
+        source_csv=working_directory+"/input_rgb.csv"
         csv_exportname=working_directory+"/output.csv"
     else:
         gui_enabled=True
@@ -48,13 +48,13 @@ def main():
 
             # process each entry in csv
             # csv format: id, image name, mask name
-            image_filename=working_directory+"/"+frame["image_name"]
+            image_filename=working_directory+"/"+frame["rgb_name"]
             mask_filename=working_directory+"/"+frame["mask_name"]
             temp_range=(0,1)
             id=frame["id"]
 
-            # load thermal image
-            main_image=ndimage.imread(image_filename,flatten=True)
+            # load rgb image
+            main_image=ndimage.imread(image_filename)
 
             # process mask to boolean
             mask_image=ndimage.imread(mask_filename,flatten=True)

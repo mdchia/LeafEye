@@ -27,12 +27,12 @@ def main():
         working_directory=sys.argv[1]
         if working_directory[-1]=="/":
             working_directory=working_directory[0:-1]
-        source_csv=working_directory+"/input.csv"
+        source_csv=working_directory+"/input_vector.csv"
         csv_exportname=working_directory+"/output.csv"
     else:
         gui_enabled=True
         working_directory=easygui.diropenbox("Select image folder")
-        source_csv=working_directory+"/input.csv"
+        source_csv=working_directory+"/input_vector.csv"
         csv_exportname=easygui.filesavebox("Save resulting CSV")
     pixel_range=(0,255)
     mask_threshold=255/2
