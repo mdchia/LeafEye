@@ -12,7 +12,7 @@ import sys
 
 
 def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None,
-                             start=(0,0), target=None, rgb=None):
+                             start=(0,0), target=None, rgb=None, rgb_only=False):
     """
     Takes a thermal image, converts it to a wide dataset
     :param image:
@@ -22,7 +22,7 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None,
     :param mask:
     :param target:
     :param rgb: Optional rgb image to overlay data
-    :return:
+    :return: Array as id, temp, raw, x,y, optional: distance, red, green, blue
     """
     export_data=[]
     checkpoint=math.floor(len(image)/10.01) # 10.01 is a hack for better consistency
@@ -48,6 +48,8 @@ def thermal_image_to_dataset(image, temp_range, pixel_range, id, mask=None,
                 blue = rgb[y][x][2]
                 color_data=[red,green,blue]
                 export_line.extend(color_data)
+                if rgb_only:
+                    export_line=[id, red,green,blue, x+start[0],y+start[1]]
             export_data.append(export_line)
         if y % checkpoint==0: # Print a dot for every 10% of progress
             print(".", end="")

@@ -36,7 +36,7 @@ def main():
         csv_exportname=easygui.filesavebox("Save resulting CSV")
     pixel_range=(0,255)
     mask_threshold=255/2
-    full_data=[["id","temp","raw","x","y"]]
+    full_data=[["id","red", "blue", "green", "x","y",]]
     i=1
     with open(source_csv) as csv_file:
         csv_reader=csv.DictReader(csv_file)
@@ -47,33 +47,27 @@ def main():
             sys.stdout.flush()
 
             # process each entry in csv
-            # csv format: id, image name, mask name, max temp, min temp,
-            # crop details (2 x-y coordinates)
+            # csv format: id, image name, mask name
             image_filename=working_directory+"/"+frame["image_name"]
             mask_filename=working_directory+"/"+frame["mask_name"]
-            temp_range=(float(frame["max_temp"]),float(frame["min_temp"]))
-            cropsize=(int(frame["topleft_x"]), int(frame["topleft_y"]),
-                      int(frame["bottomright_x"])-int(frame["topleft_x"]),
-                      int(frame["bottomright_y"])-int(frame["topleft_y"]))
-            start_coords=(int(frame["topleft_x"]), int(frame["topleft_y"]))
+            temp_range=(0,1)
             id=frame["id"]
 
             # load thermal image
             main_image=ndimage.imread(image_filename,flatten=True)
-            cropped_image=imaging.crop(cropsize,main_image)
 
             # process mask to boolean
             mask_image=ndimage.imread(mask_filename,flatten=True)
-            cropped_mask=imaging.crop(cropsize,mask_image)
-            cropped_mask=cropped_mask[:,:] < mask_threshold
+            mask_image=mask_image[:,:] < mask_threshold
             if not imaging.verify_mask(main_image, mask_image):
                 raise Exception("Mask does not fit image")
 
             # make the dataset for this image
-            frame_data=thermal.thermal_image_to_dataset(cropped_image,
+            frame_data=thermal.thermal_image_to_dataset(mask_image,
                                                         temp_range, pixel_range,
-                                                        id, cropped_mask,
-                                                        start_coords)
+                                                        id, mask=mask_image,
+                                                        rgb=main_image,
+                                                        rgb_only=True)
             full_data.extend(frame_data)
             i+=1
             print("done!")
