@@ -1,0 +1,3 @@
+id,image_name,mask_name,max_temp,min_temp,topleft_x,topleft_y,bottomright_x,bottomright_y
+S1,1.jpg,1_mask.jpg,13.6,9.5,2,2,612,478
+S2,2.jpg,2_mask.jpg,12.4,8.3,2,2,612,478
