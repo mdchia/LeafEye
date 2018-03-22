@@ -13,7 +13,6 @@ Tested on Mac (10.10 and higher) and Linux (Ubuntu)
 Recommended but not required:
 
 - ImageJ for making image masks
-- R/RStudio for further analysis
 
 ## Usage
 
@@ -30,5 +29,18 @@ Recommended but not required:
 - Repeat for each image in dataset to be processed. (The pipeline and further statistics will likely take some time to process, so you might want to make a minimal working dataset to test your full analysis pipeline on)
 - Encode sample name, image filename, min/max temperature, and mask filename in a table (see template)
 ![](img/table_sample.png)
-"topleft_x" and the other three columns following denote initial cropping; if your subjects are strictly within a subset of the image, you might want to use this to speed up the image processing.
-- Run the batch 
+- Ensure that all the images and `input_batch.csv` are in the same folder.
+
+### Processing images
+- Run batch.py on the Terminal with `python batch.py <folder path>`. On Mac, you can insert the folder path by dragging the folder on to the Terminal window.
+- You should get some messages like this:
+
+```
+Initializing ... 
+Starting image 1............done!
+Starting image 2............done!
+Saving csv ...
+Completed!
+```
+
+- Look in the folder for an `output.csv`. This file can now be further processed by your statistical package.
