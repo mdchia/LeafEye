@@ -52,28 +52,28 @@ def main():
             image_filename=working_directory+"/"+frame["image_name"]
             mask_filename=working_directory+"/"+frame["mask_name"]
             temp_range=(float(frame["max_temp"]),float(frame["min_temp"]))
-            cropsize=(int(frame["topleft_x"]), int(frame["topleft_y"]),
-                      int(frame["bottomright_x"])-int(frame["topleft_x"]),
-                      int(frame["bottomright_y"])-int(frame["topleft_y"]))
-            start_coords=(int(frame["topleft_x"]), int(frame["topleft_y"]))
             id=frame["id"]
 
             # load thermal image
             main_image=ndimage.imread(image_filename,flatten=True)
-            cropped_image=imaging.crop(cropsize,main_image)
 
             # process mask to boolean
             mask_image=ndimage.imread(mask_filename,flatten=True)
-            cropped_mask=imaging.crop(cropsize,mask_image)
-            cropped_mask=cropped_mask[:,:] < mask_threshold
+            mask_image=mask_image[:,:] < mask_threshold
             if not imaging.verify_mask(main_image, mask_image):
                 raise Exception("Mask does not fit image")
+
+            # automatic vector crop
+            crop_params=imaging.mask_crop_size(mask_image)
+            cropped_image=imaging.crop(crop_params, main_image)
+            cropped_mask=imaging.crop(crop_params, mask_image)
 
             # make the dataset for this image
             frame_data=thermal.thermal_image_to_dataset(cropped_image,
                                                         temp_range, pixel_range,
                                                         id, cropped_mask,
-                                                        start_coords)
+                                                        (crop_params[0],
+                                                         crop_params[1]))
             full_data.extend(frame_data)
             i+=1
             print("done!")
