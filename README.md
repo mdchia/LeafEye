@@ -6,7 +6,7 @@ Allows for filtering of subject data at high resolutions from thermal image data
 
 ## Software requirements
 
-Python 3 (to run this)
+[Python 3](https://docs.python.org/3/using/index.html) (to run this)
 
 I recommend using [Anaconda](https://conda.io/docs/user-guide/install/macos.html) to create a Python 3 environment.
 
@@ -26,6 +26,9 @@ Recommended but not required:
  - Select the area you want with the Polygon tool
  - Fill 
  - Clear Outside
+ - Selection > Select None (or just click outside the polygon)
+ - Invert (The area of interest should be in black and the areas to ignore in white)
+ - (If your object has a clear background, you can also try using Threshold instead.)
  - Save As ... > Jpeg
  ![Sample of a thermal photo mask](img/sample_mask.jpg)
 - Repeat for each image in dataset to be processed. (The pipeline and further statistics will likely take some time to process, so you might want to make a minimal working dataset to test your full analysis pipeline on)
