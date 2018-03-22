@@ -43,7 +43,8 @@ def main():
         for frame in csv_reader:
 
             # say what we're doing
-            print("Starting image "+str(i), end="")
+
+            print("Starting image "+str(i)+" ("+frame["id"]+")", end="")
             sys.stdout.flush()
 
             # process each entry in csv
